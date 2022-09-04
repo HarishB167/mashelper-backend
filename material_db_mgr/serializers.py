@@ -16,3 +16,13 @@ class MaterialLineItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.MaterialLineItem
         fields = ['id', 'date', 'location', 'remarks', 'quantity', 'material_name', 'unit']
+
+
+class ListMaterialLineItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.MaterialLineItem
+        fields = ['id', 'date', 'location', 'remarks', 'quantity', 'material_name', 'unit']
+    
+    material_name = MaterialSerializer()
+    unit = UnitSerializer()
+    
