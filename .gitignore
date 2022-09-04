@@ -1,0 +1,6 @@
+*.pyc
+static/
+staticfiles/
+db.sqlite3
+poetry.lock
+.vscode/
