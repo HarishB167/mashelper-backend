@@ -23,6 +23,7 @@ class ListMaterialLineItemSerializer(serializers.ModelSerializer):
         model = models.MaterialLineItem
         fields = ['id', 'date', 'location', 'remarks', 'quantity', 'material_name', 'unit']
     
-    material_name = MaterialSerializer()
-    unit = UnitSerializer()
+    material_name = serializers.StringRelatedField() # MaterialSerializer()
+    unit = serializers.StringRelatedField() # UnitSerializer()
     
+

@@ -8,3 +8,5 @@ router.register('material', views.MaterialViewSet)
 router.register('unit', views.UnitViewSet)
 
 urlpatterns = router.urls
+
+urlpatterns += [path('materiallineitems/', views.materiallineitem_list, name='materiallineitem-listcreate')]
