@@ -18,7 +18,7 @@ class MaterialLineItem(models.Model):
     date = models.DateField()
     location = models.TextField()
     remarks = models.TextField()
-    quantity = models.PositiveBigIntegerField()
+    quantity = models.DecimalField(max_digits=5, decimal_places=2)
     material_name = models.ForeignKey(Material, on_delete=models.PROTECT)
     unit = models.ForeignKey(Unit, on_delete=models.PROTECT)
 
