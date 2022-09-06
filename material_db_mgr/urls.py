@@ -9,4 +9,7 @@ router.register('unit', views.UnitViewSet)
 
 urlpatterns = router.urls
 
-urlpatterns += [path('materiallineitems/', views.materiallineitem_list, name='materiallineitem-listcreate')]
+urlpatterns += [
+    path('materiallineitems/', views.materiallineitem_list, name='materiallineitem-listcreate'),
+    path('materiallineitems_csv/<from_date>/<to_date>/', views.materiallineitems_csv_list, name='materiallineitem-getcsvlist'),
+]

@@ -1,5 +1,7 @@
+import csv
+from datetime import datetime
 from django.http import HttpResponse
-from django.shortcuts import render
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -44,6 +46,37 @@ class UnitViewSet(ModelViewSet):
     permission_classes = []
 
 
+@api_view(['GET'])
+def materiallineitems_csv_list(request, from_date, to_date):
 
+    def validate(date_text):
+        try:
+            if date_text != datetime.strptime(date_text, "%Y-%m-%d").strftime('%Y-%m-%d'):
+                raise ValueError
+            return True
+        except ValueError:
+            return False
+    if not (validate(from_date) and validate(to_date)):
+        return Response("Wrong date format : it should be in YYYY-MM-DD", status=status.HTTP_400_BAD_REQUEST)
+
+    from_date = datetime.strptime(from_date, "%Y-%m-%d")
+    to_date = datetime.strptime(to_date, "%Y-%m-%d")
+    diff = to_date - from_date
+    if not 0 < diff.days < 365*2:
+        return Response(f"Wrong date range, date range should in between 1 to 730 days", status=status.HTTP_400_BAD_REQUEST)
+
+    response = HttpResponse(
+        content_type='text/csv',
+        headers={'Content-Disposition': 'attachment; filename="somefilename.csv"'},
+    )
+    writer = csv.writer(response)
+    writer.writerow(['Date', 'Material', 'Quantity', 'Unit', 'Location', 'Remarks'])
+
+    for item in MaterialLineItem.objects \
+        .filter(date__gte=from_date, date__lte=to_date) \
+        .order_by('date', 'location', 'material_name', '-quantity').all():
+        writer.writerow([item.date, item.material_name, item.quantity, item.unit, item.location, item.remarks])
+
+    return response
 
 
