@@ -11,7 +11,9 @@ from .serializers import ListMaterialLineItemSerializer, MaterialLineItemSeriali
 
 
 class MaterialLineItemViewSet(ModelViewSet):
-    queryset = MaterialLineItem.objects.select_related('material_name', 'unit').all()
+    queryset = MaterialLineItem.objects.select_related('material_name', 'unit')\
+        .order_by('date', 'location', 'material_name', '-quantity')\
+        .all()
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
