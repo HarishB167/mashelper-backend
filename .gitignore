@@ -1,7 +1,10 @@
 *.pyc
-static/
-staticfiles/
+
+general.log
 db.sqlite3
 poetry.lock
+
+static/
+staticfiles/
 .vscode/
-general.log
+.venv/
